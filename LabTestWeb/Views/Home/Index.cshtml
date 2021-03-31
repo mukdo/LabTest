@@ -1,0 +1,302 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@section footer_scripts{
+
+
+    <script>
+        'use strict';
+
+        ; (function (document, window, index) {
+            var inputs = document.querySelectorAll('.inputfile');
+            Array.prototype.forEach.call(inputs, function (input) {
+                var label = input.nextElementSibling,
+                    labelVal = label.innerHTML;
+
+                input.addEventListener('change', function (e) {
+                    var fileName = '';
+                    if (this.files && this.files.length > 1)
+                        fileName = (this.getAttribute('data-multiple-caption') || '').replace('{count}', this.files.length);
+                    else
+                        fileName = e.target.value.split('\\').pop();
+
+                    if (fileName)
+                        label.querySelector('span').innerHTML = fileName;
+                    else
+                        label.innerHTML = labelVal;
+                });
+
+                // Firefox bug fix
+                input.addEventListener('focus', function () { input.classList.add('has-focus'); });
+                input.addEventListener('blur', function () { input.classList.remove('has-focus'); });
+            });
+        }(document, window, 0));
+
+    </script>
+    <script src="~/assets/js/model/indexController.js"></script>
+    @*<script>
+        window.onload = function () {
+
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                zoomEnabled: true,
+                title: {
+                    text: "Timeseries Data"
+                },
+                data: data  // random generator below
+            });
+            chart.render();
+
+        }
+
+        var limit = 1000;
+
+        var y = 0;
+        var data = [];
+        var dataSeries = { type: "line" };
+        var dataPoints = [];
+        for (var i = 0; i < limit; i += 1) {
+            y += (Math.random() * 10 - 5);
+            dataPoints.push({
+                x: i - limit / 2,
+                y: y
+            });
+        }
+        dataSeries.dataPoints = dataPoints;
+        data.push(dataSeries);
+
+    </script>*@
+
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+}
+
+<style>
+
+    .bootstrap-datetimepicker-widget.dropdown-menu {
+        border: 1px solid #34495e;
+        border-radius: 0;
+        box-shadow: none;
+        margin: 10px 0 0 0;
+        padding: 0;
+        min-width: 300px;
+        max-width: 100%;
+        width: auto;
+    }
+
+        .bootstrap-datetimepicker-widget.dropdown-menu.bottom:before, .bootstrap-datetimepicker-widget.dropdown-menu.bottom:after {
+            display: none;
+        }
+
+        .bootstrap-datetimepicker-widget.dropdown-menu table td,
+        .bootstrap-datetimepicker-widget.dropdown-menu table th {
+            border-radius: 0;
+        }
+
+            .bootstrap-datetimepicker-widget.dropdown-menu table td.old, .bootstrap-datetimepicker-widget.dropdown-menu table td.new {
+                color: #bbb;
+            }
+
+            .bootstrap-datetimepicker-widget.dropdown-menu table td.today:before {
+                border-bottom-color: #0095ff;
+            }
+
+            .bootstrap-datetimepicker-widget.dropdown-menu table td.active,
+            .bootstrap-datetimepicker-widget.dropdown-menu table td.active:hover,
+            .bootstrap-datetimepicker-widget.dropdown-menu table td span.active {
+                background-color: #0095ff;
+                text-shadow: none;
+            }
+
+                .bootstrap-datetimepicker-widget.dropdown-menu table td.active.today:before,
+                .bootstrap-datetimepicker-widget.dropdown-menu table td.active:hover.today:before,
+                .bootstrap-datetimepicker-widget.dropdown-menu table td span.active.today:before {
+                    border-bottom-color: #fff;
+                }
+
+        .bootstrap-datetimepicker-widget.dropdown-menu table th {
+            height: 40px;
+            padding: 0;
+            width: 40px;
+        }
+
+            .bootstrap-datetimepicker-widget.dropdown-menu table th.picker-switch {
+                width: auto;
+            }
+
+        .bootstrap-datetimepicker-widget.dropdown-menu table tr:first-of-type th {
+            border-bottom: 1px solid #34495e;
+        }
+
+        .bootstrap-datetimepicker-widget.dropdown-menu table td.day {
+            height: 32px;
+            line-height: 32px;
+            padding: 0;
+            width: auto;
+        }
+
+        .bootstrap-datetimepicker-widget.dropdown-menu table td span {
+            border-radius: 0;
+            height: 77px;
+            line-height: 77px;
+            margin: 0;
+            width: 25%;
+        }
+
+        .bootstrap-datetimepicker-widget.dropdown-menu .datepicker-months tbody tr td,
+        .bootstrap-datetimepicker-widget.dropdown-menu .datepicker-years tbody tr td,
+        .bootstrap-datetimepicker-widget.dropdown-menu .datepicker-decades tbody tr td {
+            padding: 0;
+        }
+
+        .bootstrap-datetimepicker-widget.dropdown-menu .datepicker-decades tbody tr td {
+            height: 27px;
+            line-height: 27px;
+        }
+
+            .bootstrap-datetimepicker-widget.dropdown-menu .datepicker-decades tbody tr td span {
+                display: block;
+                float: left;
+                width: 50%;
+                height: 46px;
+                line-height: 46px !important;
+                padding: 0;
+            }
+
+                .bootstrap-datetimepicker-widget.dropdown-menu .datepicker-decades tbody tr td span:not(.decade) {
+                    display: none;
+                }
+
+        .bootstrap-datetimepicker-widget.dropdown-menu .timepicker-picker table td {
+            padding: 0;
+            width: 30%;
+            height: 20px;
+            line-height: 20px;
+        }
+
+            .bootstrap-datetimepicker-widget.dropdown-menu .timepicker-picker table td:nth-child(2) {
+                width: 10%;
+            }
+
+            .bootstrap-datetimepicker-widget.dropdown-menu .timepicker-picker table td a,
+            .bootstrap-datetimepicker-widget.dropdown-menu .timepicker-picker table td span,
+            .bootstrap-datetimepicker-widget.dropdown-menu .timepicker-picker table td button {
+                border: none;
+                border-radius: 0;
+                height: 56px;
+                line-height: 56px;
+                padding: 0;
+                width: 100%;
+            }
+
+            .bootstrap-datetimepicker-widget.dropdown-menu .timepicker-picker table td span {
+                color: #333;
+                margin-top: -1px;
+            }
+
+            .bootstrap-datetimepicker-widget.dropdown-menu .timepicker-picker table td button {
+                background-color: #fff;
+                color: #333;
+                font-weight: bold;
+                font-size: 1.2em;
+            }
+
+                .bootstrap-datetimepicker-widget.dropdown-menu .timepicker-picker table td button:hover {
+                    background-color: #eee;
+                }
+
+        .bootstrap-datetimepicker-widget.dropdown-menu .picker-switch table td {
+            border-top: 1px solid #34495e;
+        }
+
+            .bootstrap-datetimepicker-widget.dropdown-menu .picker-switch table td a, .bootstrap-datetimepicker-widget.dropdown-menu .picker-switch table td span {
+                display: block;
+                height: 40px;
+                line-height: 40px;
+                padding: 0;
+                width: 100%;
+            }
+
+    .todayText:before {
+        content: "Today's Date";
+    }
+</style>
+
+<div class="home">
+
+    <div class="index-wrap" data-ng-controller="indexController" id="angularpage">
+        <div>
+
+            <ng-include src="'/AngularTemplates/GlobalNotification/CustomMessageTemplate.html'" />
+        </div>
+        <div role="form" id="PageForm" data-parsley-validate>
+            <div class="row assignment-section">
+                <div class="col-12">
+                    <div class="row">
+
+
+                        <div class="col-md-2 col-sm-2 pb-2">
+                            <label class="col-sm-4 control-label">Building </label>
+                            <select class="form-control"
+                                    data-ng-model="newIndexModel.BuildingId"
+                                    data-ng-options="o.id as o.name for o in BuildingList">
+                                <option value="">Please select</option>
+
+                            </select>
+
+                        </div>
+                        <div class="col-md-2 col-sm-2 pb-2">
+                            <label class="col-sm-4 control-label">Object </label>
+                            <select class="form-control"
+                                    data-ng-model="newIndexModel.ObjectId"
+                                    data-ng-options="o.id as o.name for o in ObjectList"
+                                    id="assignmentTypeId">
+                                <option value="">Please select</option>
+
+                            </select>
+
+                        </div>
+                        <div class="col-md-2 col-sm-2 pb-2">
+                            <label class="col-sm-4 control-label">Datafield </label>
+                            <select class="form-control"
+                                    data-ng-model="newIndexModel.DatafieldId"
+                                    data-ng-options="o.id as o.name for o in DatafieldList"
+                                    id="assignmentTypeId">
+                                <option value="">Please select</option>
+
+                            </select>
+
+                        </div>
+                        <div class="col-md-4 col-sm-4 pb-4">
+                            <label class="col-sm-4 control-label">Data Range </label>
+                            <div class="input-group input-daterange">
+                                <input type="text" data-ng-model="newIndexModel.TimestampFrom" class="form-control input1" placeholder="Date From" readonly>
+                                <input type="text" data-ng-model="newIndexModel.TimestampTo" class="form-control input2" placeholder="Date To" readonly>
+                            </div>
+
+
+
+                        </div>
+
+                        <div class="col-md-2 save-btn pb-2">
+                            <label class="col-sm-4 control-label"> </label>
+                            <button style="margin:8px 0px 0px 0px" type="button" ng-click="search()" ng- class="btn-setting btn-hvr-setting-main btn-summer-sky btn-hvr text-uppercase" id="submit_btn" style="margin-top:0px!important;width:100%;padding:0;">
+                                <i class="ti ti-reload ti-reload mr-2 d-none" aria-hidden="true"></i><b class="font-weight-normal">Search</b>
+                            </button>
+                        </div>
+                       
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="chartContainer" style="height: 300px; max-width: 920px; margin: 0px auto;">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
